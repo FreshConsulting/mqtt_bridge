@@ -1,0 +1,24 @@
+mqtt:
+  client:
+    protocol: 4      # MQTTv311
+  connection:
+    host: localhost
+    port: 1883
+    keepalive: 60
+  private_path: device/001
+#serializer: json:dumps
+#deserializer: json:loads
+bridge:
+  # imu 
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: sensor_msgs.msg:Imu 
+    topic_from: /vectornav/imu
+    topic_to: imu
+  # magnetometer
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: sensor_msgs.msg:MagneticField
+    topic_from: /vectornav/magnetic_field
+    topic_to: mag
+
+
+
