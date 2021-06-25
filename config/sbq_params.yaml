@@ -6,8 +6,8 @@ mqtt:
     port: 1883
     keepalive: 60
   private_path: device/001
-#serializer: json:dumps
-#deserializer: json:loads
+serializer: json:dumps
+deserializer: json:loads
 bridge:
   # imu 
   - factory: mqtt_bridge.bridge:RosToMqttBridge
@@ -19,6 +19,32 @@ bridge:
     msg_type: sensor_msgs.msg:MagneticField
     topic_from: /vectornav/magnetic_field
     topic_to: mag
-
-
-
+  # GPS location
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: sensor_msgs.msg:NavSatFix
+    topic_from: /reach/rtk/fix
+    topic_to: position
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:String
+    topic_from: navcommand
+    topic_to: /nav_command/command
+  # mission topic for sending waypoints
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:Float64MultiArray
+    topic_from: set_scan_area
+    topic_to: /nav_command/set_scan_area
+  # mission topic for sending single waypoint
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:Float64MultiArray
+    topic_from: go_to_relative
+    topic_to: /nav_command/go_to_relative
+  # stop command to stop robot and clear current mission
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:Bool
+    topic_from: stop
+    topic_to: /navigation/stop
+  # communicate current waypoint back to API
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: sensor_msgs.msg:NavSatFix
+    topic_from: /navigation/current_waypoint
+    topic_to: current_waypoint
