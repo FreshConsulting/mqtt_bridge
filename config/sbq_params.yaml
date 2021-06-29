@@ -43,8 +43,18 @@ bridge:
     msg_type: std_msgs.msg:Bool
     topic_from: stop
     topic_to: /navigation/stop
-  # communicate current waypoint back to API
+  # pause command to pause the robot or unpause the robot
   - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:Bool
+    topic_from: pause
+    topic_to: /navigation/pause
+  # communicate current waypoint back to API
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
     msg_type: sensor_msgs.msg:NavSatFix
     topic_from: /navigation/current_waypoint
     topic_to: current_waypoint
+  # collision status
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: std_msgs.msg:Bool
+    topic_from: /collision
+    topic_to: collision
