@@ -58,7 +58,13 @@ bridge:
     msg_type: std_msgs.msg:Bool
     topic_from: /collision
     topic_to: collision
+  # Orientation of the robot
   - factory: mqtt_bridge.bridge:RosToMqttBridge
     msg_type: std_msgs.msg:Float64
     topic_from: /orientation
     topic_to: orientation
+  # Battery level
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: std_msgs.msg:Float64
+    topic_from: /battery_level
+    topic_to: battery_level
