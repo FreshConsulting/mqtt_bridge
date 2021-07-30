@@ -1,3 +1,5 @@
+*Note: Fresh Consulting has not modified this file outside of the config and launch files. The core functional code is still original, and the package was forked to maintain a working configuration in the event the original is removed.*
+
 # mqtt_bridge
 
 [![CircleCI](https://circleci.com/gh/groove-x/mqtt_bridge.svg?style=svg)](https://circleci.com/gh/groove-x/mqtt_bridge)
